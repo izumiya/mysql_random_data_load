@@ -7,6 +7,16 @@ import (
 	"github.com/icrowley/fake"
 )
 
+var letters = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randSeq(n uint64) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
 // RandomString getter
 type RandomString struct {
 	name      string
@@ -24,10 +34,8 @@ func (r *RandomString) Value() interface{} {
 		maxSize = uint64(rand.Int63n(100))
 	}
 
-	if maxSize <= 10 {
-		s = fake.FirstName()
-	} else if maxSize < 30 {
-		s = fake.FullName()
+	if maxSize < 30 {
+		s = randSeq(maxSize)
 	} else {
 		s = fake.Sentence()
 	}
