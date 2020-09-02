@@ -15,7 +15,11 @@ func (r *RandomSample) Value() interface{} {
 	if r.allowNull && rand.Int63n(100) < nilFrequency {
 		return nil
 	}
-	pos := rand.Int63n(int64(len(r.samples)))
+	slen := int64(len(r.samples))
+	if slen <= 0 {
+		return nil
+	}
+	pos := rand.Int63n(slen)
 	return r.samples[pos]
 }
 
